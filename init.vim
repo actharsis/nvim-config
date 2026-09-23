@@ -4,10 +4,18 @@
 :set tabstop=4
 :set smarttab
 :set softtabstop=4
+:set shiftwidth=4
 
 let mapleader = " "
 
 set clipboard+=unnamedplus
+
+let s:plug_path = stdpath('data') . '/site/autoload/plug.vim'
+
+if empty(glob(s:plug_path))
+  execute '!curl -fLo ' . shellescape(s:plug_path) .
+        \ ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+endif
 
 call plug#begin()
 
@@ -58,12 +66,14 @@ vim.lsp.config("rust_analyzer", {
     },
 })
 
+vim.diagnostic.config({ virtual_text = true })
+
 -- You can enable different LSP features
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(ev)
         local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
         -- Inlay hints display inferred types, etc.
-        if client:supports_method("inlayHint/resolve") then
+        if client:supports_method("inlayHint/inlayHint") then
             vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
         end
         -- Completion can be invoked via ctrl+x ctrl+o. It displays a list of
@@ -71,7 +81,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
         if client:supports_method("textDocument/completion") then
             vim.lsp.completion.enable(true, client.id, ev.buf, { })
         end
-		vim.diagnostic.config({ virtual_text = true })
     end,
 })
 
