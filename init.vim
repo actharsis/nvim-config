@@ -30,6 +30,7 @@ Plug 'https://github.com/nvim-lua/plenary.nvim'
 Plug 'https://github.com/nvim-telescope/telescope.nvim'
 Plug 'kdheepak/lazygit.nvim'
 Plug 'https://github.com/neovim/nvim-lspconfig'
+Plug 'MeanderingProgrammer/render-markdown.nvim'
 
 call plug#end()
 
@@ -41,6 +42,7 @@ nnoremap <Leader>t :TagbarOpenAutoClose<CR>
 nnoremap <Leader>f :Telescope live_grep<CR>
 nnoremap <Leader>g :Telescope find_files<CR>
 nnoremap <Leader>l :LazyGit<CR>
+nnoremap <leader>m <cmd>RenderMarkdown toggle<CR>
 
 lua << EOF
 
